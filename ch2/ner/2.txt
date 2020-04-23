@@ -1,0 +1,1 @@
+With great power come great responsibility. The second you create AWS resources, you’re responsible for them: security of course, but also cost and scaling. This makes monitoring and alerting all the more important, which is why we built services like Amazon CloudWatch, AWS Config and AWS Systems Manager.
