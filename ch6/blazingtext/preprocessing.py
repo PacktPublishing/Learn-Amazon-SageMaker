@@ -26,7 +26,8 @@ if __name__=='__main__':
     # Load dataset into a pandas dataframe
     input_data_path = os.path.join('/opt/ml/processing/input', filename)
     print('Reading input data from {}'.format(input_data_path))
-    data = pd.read_csv(input_data_path, sep='\t', error_bad_lines=False, dtype='str')
+    data = pd.read_csv(input_data_path, sep='\t', compression='gzip',
+                       error_bad_lines=False, dtype='str')
     
     # Remove lines with missing values and duplicates
     data.dropna(inplace=True)
@@ -41,11 +42,13 @@ if __name__=='__main__':
                   'review_headline', 'review_date'], axis=1)
     
     # Add label column
-    data['label'] = np.where(data['star_rating'] == '1', '__label__negative__', '')
-    data['label'] = np.where(data['star_rating'] == '2', '__label__negative__', data['label'])
-    data['label'] = np.where(data['star_rating'] == '3', '__label__neutral__', data['label'])
-    data['label'] = np.where(data['star_rating'] == '4', '__label__positive__', data['label'])
-    data['label'] = np.where(data['star_rating'] == '5', '__label__positive__', data['label'])
+    data['label'] = data.star_rating.map({
+        '1': '__label__bad__',
+        '2': '__label__bad__',
+        '3': '__label__medium__',
+        '4': '__label__good__',
+        '5': '__label__good__'}
+    )
     data = data.drop(['star_rating'], axis=1)
 
     # Move label column to the front
