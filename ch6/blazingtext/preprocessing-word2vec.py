@@ -7,15 +7,16 @@ from sklearn.model_selection import train_test_split
 
 def install(package):
     subprocess.call([sys.executable, "-m", "pip", "install", package])
-    
+
 if __name__=='__main__':
     
-    install('nltk')
-    import nltk
+    install('spaCy')
+    subprocess.call([sys.executable, "", "spacy", "download en"])
+    import spacy
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--filename', type=str)
-    parser.add_argument('--num-reviews', type=int, default=None)
+    parser.add_argument('--num-reviews', type=int)
     args, _ = parser.parse_known_args()
     print('Received arguments {}'.format(args))
     filename = args.filename
@@ -24,25 +25,25 @@ if __name__=='__main__':
     # Load dataset into a pandas dataframe
     input_data_path = os.path.join('/opt/ml/processing/input', filename)
     print('Reading input data from {}'.format(input_data_path))
-    data = pd.read_csv(input_data_path, sep='\t', error_bad_lines=False, dtype='str')
+    data = pd.read_csv(input_data_path, sep='\t', compression='gzip',
+                       error_bad_lines=False, dtype='str', nrows=num_reviews)
     
     # Remove lines with missing values and duplicates
     data.dropna(inplace=True)
     data.drop_duplicates(inplace=True)
-    
-    if num_reviews is not None:
-        data = data[:num_reviews]
-        
+            
     # Drop unwanted columns
-    data = data.drop(['marketplace', 'customer_id', 'review_id', 'product_id', 'product_parent', 'product_title',
-                  'product_category', 'helpful_votes', 'total_votes', 'vine', 'verified_purchase', 
-                  'review_headline', 'review_date', 'star_rating'], axis=1)
+    data = data[['review_body']]
      
     # Tokenize reviews
-    nltk.download('punkt')
+    spacy_nlp = spacy.load('en')
+    def tokenize(text):
+        tokens = spacy_nlp.tokenizer(text)
+        tokens = [ t.text for t in tokens ]
+        return " ".join(tokens).lower()
+
     print('Tokenizing reviews')
-    data['review_body'] = data['review_body'].apply(nltk.word_tokenize)
-    data['review_body'] = data.apply(lambda row: " ".join(row['review_body']).lower(), axis=1)
+    data['review_body'] = data['review_body'].apply(tokenize)
        
     training_output_path = os.path.join('/opt/ml/processing/train', 'training.txt')    
     

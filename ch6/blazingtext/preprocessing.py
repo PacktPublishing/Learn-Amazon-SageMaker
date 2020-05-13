@@ -15,7 +15,7 @@ if __name__=='__main__':
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--filename', type=str)
-    parser.add_argument('--num-reviews', type=int, default=None)
+    parser.add_argument('--num-reviews', type=int)
     parser.add_argument('--split-ratio', type=float, default=0.1)
     args, _ = parser.parse_known_args()
     print('Received arguments {}'.format(args))
@@ -29,30 +29,27 @@ if __name__=='__main__':
     data = pd.read_csv(input_data_path, sep='\t', compression='gzip',
                        error_bad_lines=False, dtype='str')
     
-    # Remove lines with missing values and duplicates
+    # Remove lines with missing values
     data.dropna(inplace=True)
-    data.drop_duplicates(inplace=True)
     
     if num_reviews is not None:
         data = data[:num_reviews]
         
     # Drop unwanted columns
-    data = data.drop(['marketplace', 'customer_id', 'review_id', 'product_id', 'product_parent', 'product_title',
-                  'product_category', 'helpful_votes', 'total_votes', 'vine', 'verified_purchase', 
-                  'review_headline', 'review_date'], axis=1)
+    data = data[['star_rating', 'review_body']]
     
     # Add label column
     data['label'] = data.star_rating.map({
-        '1': '__label__bad__',
-        '2': '__label__bad__',
-        '3': '__label__medium__',
-        '4': '__label__good__',
-        '5': '__label__good__'}
-    )
+        '1': '__label__negative__',
+        '2': '__label__negative__',
+        '3': '__label__neutral__',
+        '4': '__label__positive__',
+        '5': '__label__positive__'})
+    
     data = data.drop(['star_rating'], axis=1)
 
     # Move label column to the front
-    data = pd.concat([data['label'], data.drop(['label'], axis=1)], axis=1)
+    data = data[['label', 'review_body']]
     
     # Tokenize reviews
     nltk.download('punkt')
