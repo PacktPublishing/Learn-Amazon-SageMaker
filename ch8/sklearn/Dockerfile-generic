@@ -1,0 +1,6 @@
+FROM python:3.7
+
+RUN pip3 install --no-cache scikit-learn numpy pandas joblib
+
+COPY sklearn-boston-housing-generic.py /usr/bin/train
+RUN chmod 755 /usr/bin/train
