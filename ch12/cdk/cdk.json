@@ -1,0 +1,13 @@
+{
+    "app": "python3 app.py",
+    "context": {
+	"role_arn": ENTER_YOUR_ROLE_ARN
+        "model_name": "tf2-fmnist",
+        "epc_name": "tf2-fmnist-epc",
+        "ep_name": "tf2-fmnist-ep",
+        "image": "763104351884.dkr.ecr.eu-west-1.amazonaws.com/tensorflow-inference:2.1-cpu",
+        "model_data_url": ENTER_YOUR_ARTEFACT_PATH
+        "instance_type": "ml.t2.xlarge",
+        "instance_count": 1
+    }
+}
