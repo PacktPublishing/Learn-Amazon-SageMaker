@@ -1,0 +1,87 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ModelName:
+    Description: First model name 
+    Type: String
+  ModelDataUrl:
+    Description: Location of first model artefact
+    Type: String
+  VariantWeight:
+    Description: Weight of first model
+    Type: String
+    Default: 1.0
+  ModelName2:
+    Description: Second model name
+    Type: String
+  ModelDataUrl2:
+    Description: Location of second model artefact
+    Type: String
+  VariantWeight2:
+    Description: Weight of second model
+    Type: String
+    Default: 0.0
+  ContainerImage:
+    Description: The container used to deploy the models
+    Type: String
+  InstanceType:
+    Description: Instance type
+    Type: String
+    Default: ml.m5.large
+  InstanceCount:
+    Description: Instance count
+    Type: String
+    Default: 1
+  RoleArn:
+    Description: Execution Role ARN
+    Type: String
+
+Resources:
+  Model:
+    Type: "AWS::SageMaker::Model"
+    Properties: 
+      Containers: 
+        - 
+          Image: !Ref ContainerImage
+          ModelDataUrl: !Ref ModelDataUrl
+      ExecutionRoleArn: !Ref RoleArn
+      ModelName: !Ref ModelName
+
+  Model2:
+    Type: "AWS::SageMaker::Model"
+    Properties: 
+      Containers: 
+        - 
+          Image: !Ref ContainerImage
+          ModelDataUrl: !Ref ModelDataUrl2
+      ExecutionRoleArn: !Ref RoleArn
+      ModelName: !Ref ModelName2
+
+  Endpoint:
+    Type: "AWS::SageMaker::Endpoint"
+    Properties: 
+      EndpointConfigName: !GetAtt EndpointConfig.EndpointConfigName
+
+  EndpointConfig:
+    Type: "AWS::SageMaker::EndpointConfig"
+    Properties:
+      ProductionVariants: 
+        -
+          ModelName: !GetAtt Model.ModelName
+          VariantName: variant-1
+          InitialInstanceCount: !Ref InstanceCount
+          InstanceType: !Ref InstanceType
+          InitialVariantWeight: !Ref VariantWeight
+        -
+          ModelName: !GetAtt Model2.ModelName
+          VariantName: variant-2
+          InitialInstanceCount: !Ref InstanceCount
+          InstanceType: !Ref InstanceType
+          InitialVariantWeight: !Ref VariantWeight2
+
+      
+Outputs:
+  EndpointId:
+    Value: !Ref Endpoint
+  EndpointName:
+    Value: !GetAtt Endpoint.EndpointName

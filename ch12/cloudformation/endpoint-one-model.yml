@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  ModelName:
+    Description: Model name
+    Type: String
+  ModelDataUrl:
+    Description: Location of model artefact
+    Type: String
+  ContainerImage:
+    Description: The container used to deploy the model
+    Type: String
+  InstanceType:
+    Description: Instance type
+    Type: String
+    Default: ml.m5.large
+  InstanceCount:
+    Description: Instance count
+    Type: String
+    Default: 1
+  RoleArn:
+    Description: Execution Role ARN
+    Type: String
+
+Resources:
+  Model:
+    Type: "AWS::SageMaker::Model"
+    Properties: 
+      Containers: 
+        - 
+          Image: !Ref ContainerImage
+          ModelDataUrl: !Ref ModelDataUrl
+      ExecutionRoleArn: !Ref RoleArn
+      ModelName: !Ref ModelName
+
+  Endpoint:
+    Type: "AWS::SageMaker::Endpoint"
+    Properties: 
+      EndpointConfigName: !GetAtt EndpointConfig.EndpointConfigName
+      #Using a custom name will prevent updates with change sets
+      #EndpointName: !Ref EndpointName
+
+  EndpointConfig:
+    Type: "AWS::SageMaker::EndpointConfig"
+    Properties:
+      ProductionVariants: 
+        -
+          ModelName: !GetAtt Model.ModelName
+          VariantName: variant-1
+          InitialInstanceCount: !Ref InstanceCount
+          InstanceType: !Ref InstanceType
+          InitialVariantWeight: 1.0
+      #Using a custom name will prevent updates with change sets
+      #EndpointConfigName: !Ref EndpointConfigName
+
+Outputs:
+  EndpointId:
+    Value: !Ref Endpoint
+  EndpointName:
+    Value: !GetAtt Endpoint.EndpointName
