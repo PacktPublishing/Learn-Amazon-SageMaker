@@ -23,7 +23,7 @@ if __name__ == '__main__':
     training_dir = args.training
 
     filename = os.path.join(training_dir, 'housing.csv')
-    data = pd.read_csv(filename, delim_whitespace=True)
+    data = pd.read_csv(filename)
     labels = data[['medv']]
     samples = data.drop(['medv'], axis=1)
     X_train, X_test, y_train, y_test = train_test_split(samples, labels, 
