@@ -5,7 +5,7 @@ train <- function() {
     print(hp)
     normalize <- hp$normalize
 
-    data <- read.table(file='/opt/ml/input/data/training/housing.csv', header=T)
+    data <- read.csv(file='/opt/ml/input/data/training/housing.csv', header=T)
     if (normalize) {
         data <- as.data.frame(scale(data))
     }
