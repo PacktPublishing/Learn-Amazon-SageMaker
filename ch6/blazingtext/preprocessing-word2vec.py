@@ -11,7 +11,7 @@ def install(package):
 if __name__=='__main__':
     
     install('spaCy')
-    subprocess.call([sys.executable, "", "spacy", "download en"])
+    install('https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz')
     import spacy
 
     parser = argparse.ArgumentParser()
@@ -36,7 +36,7 @@ if __name__=='__main__':
     data = data[['review_body']]
      
     # Tokenize reviews
-    spacy_nlp = spacy.load('en')
+    spacy_nlp = spacy.load('en_core_web_sm')
     def tokenize(text):
         tokens = spacy_nlp.tokenizer(text)
         tokens = [ t.text for t in tokens ]
