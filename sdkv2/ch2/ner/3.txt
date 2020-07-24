@@ -1,0 +1,1 @@
+Still, customers told us that their operations work would be much simpler if they could just look at a single dashboard, listing potential issues on AWS resources no matter which ones of their accounts or which region they’ve been created in.
