@@ -38,5 +38,5 @@
 	"networkMode": "awsvpc",
 	"placementConstraints": [],
 	"family": "inference-fargate-tf115",
-    "executionRoleArn": "arn:aws:iam::613904931467:role/ecsTaskExecutionRole"
+    "executionRoleArn": "arn:aws:iam::123456789012:role/ecsTaskExecutionRole"
 }
