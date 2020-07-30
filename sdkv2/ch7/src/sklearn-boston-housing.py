@@ -1,10 +1,11 @@
+
 import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
 from sklearn.externals import joblib
 import argparse, os
-import printmetrics
+
+from printmetrics import printmetrics
 
 def model_fn(model_dir):
     model = joblib.load(os.path.join(model_dir, 'model.joblib'))
@@ -35,7 +36,7 @@ if __name__ == '__main__':
     regr = LinearRegression(normalize=normalize)
     regr.fit(X_train, y_train)
     y_pred = regr.predict(X_test)
-    printmetrics.printmetrics(y_test, y_pred)
+    printmetrics(y_test, y_pred)
     
     model = os.path.join(model_dir, 'model.joblib')
     joblib.dump(regr, model)
