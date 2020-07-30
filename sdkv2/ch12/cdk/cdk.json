@@ -1,0 +1,13 @@
+{
+    "app": "python3 app.py",
+    "context": {
+	"role_arn": "arn:aws:iam::123456789012:role/Sagemaker-fullaccess",
+        "model_name": "tf2-fmnist",
+        "epc_name": "tf2-fmnist-epc",
+        "ep_name": "tf2-fmnist-ep",
+        "image": "763104351884.dkr.ecr.us-east-1.amazonaws.com/tensorflow-inference:2.1-cpu",
+        "model_data_url": "s3://sagemaker-us-east-1-123456789012/keras2-fashion-mnist/output/tensorflow-training-2020-06-08-07-32-18-734/output/model.tar.gz",
+        "instance_type": "ml.t2.xlarge",
+        "instance_count": 1
+    }
+}
