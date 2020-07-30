@@ -21,7 +21,7 @@ def train(input_data_path, model_save_path, hyperparams_path=None):
         test_size =  float(hp['test-size'])
         random_state =  int(hp['random-state'])
 
-    data = pd.read_csv(os.path.join(input_data_path, 'bank-additional-full.csv'), sep=';')
+    data = pd.read_csv(os.path.join(input_data_path, 'bank-additional-full.csv'))
     data = pd.get_dummies(data)
     data.drop(['y_no'], axis=1, inplace=True)
 
