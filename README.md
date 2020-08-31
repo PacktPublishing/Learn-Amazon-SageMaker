@@ -1,6 +1,8 @@
 # Learn-Amazon-SageMaker
-Learn Amazon SageMaker
+Learn Amazon SageMaker, by Julien Simon
+
 https://www.packtpub.com/product/learn-amazon-sagemaker/9781800208919
+
 https://www.amazon.com/Learn-Amazon-SageMaker-developers-scientists/dp/180020891X/
 
 **Quickly build and deploy machine learning models without managing infrastructure, and improve productivity using Amazon SageMaker's capabilities such as Amazon SageMaker Studio, Autopilot, Experiments, Debugger, and Model Monitor**
