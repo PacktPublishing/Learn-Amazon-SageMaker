@@ -13,14 +13,12 @@ The content_type attribute in sagemaker.predictor.Predictor is now gone. Thus, l
 ```
 xgb_predictor.content_type = 'text/csv'
 ```
-If you use built-in serializers and deserializers, simply remove the line as it's not needed anymore.
-
-I don't have a solution for custom serializers yet, e.g. the PCA notebook in Chapter 4. Please use SDK v2.0.1 in the meantime.
-
---> FIXED, notebooks have been updated.
+FIX: if you use built-in serializers and deserializers, simply remove the line as it's not needed anymore. If you need a custom serializer, look at the PCA / FM examples in chapter 4.
 
 ***
 
-The current SageMaker SDK v2 doesn't have a serializer for 'application/x-image' content, making it impossible (?) to use predict(). The easiest option to predict with models that require this content type is to use boto3 instead, as shown in chapter 5 examples.
+The current SageMaker SDK v2 doesn't have a serializer for 'application/x-image' content, making it impossible (?) to use predict(). 
+
+FIX: use boto3 instead, as shown in chapter 5 examples.
 
 **
