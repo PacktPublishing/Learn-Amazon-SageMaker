@@ -21,6 +21,6 @@ I don't have a solution for custom serializers yet, e.g. the PCA notebook in Cha
 
 ***
 
-The current SageMaker SDK v2 doesn't have a serializer for 'application/x-image' content, making it impossible (?) to use predict(). The easiest option to predict with models that require this content type is to use boto3 instead, as shown here: https://github.com/PacktPublishing/Learn-Amazon-SageMaker/blob/master/sdkv2/ch10/spot/Image%20Classification%20on%20Imagenet%20-%20Managed%20Spot%20Training.ipynb. I'll fix the other examples later
+The current SageMaker SDK v2 doesn't have a serializer for 'application/x-image' content, making it impossible (?) to use predict(). The easiest option to predict with models that require this content type is to use boto3 instead, as shown in chapter 5 examples.
 
 **
