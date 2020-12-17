@@ -10,7 +10,7 @@ def install(package):
 
 if __name__=='__main__':
     
-    install('spaCy')
+    install('spacy==2.2.4')
     install('https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.0/en_core_web_sm-2.2.0.tar.gz')
     import spacy
 
