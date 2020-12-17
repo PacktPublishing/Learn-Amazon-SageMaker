@@ -1,10 +1,16 @@
-import dgl
 import numpy as np
-import pickle, os, argparse
+import pickle, os, argparse, sys, subprocess
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+
+def install(package):
+    subprocess.call([sys.executable, "-m", "pip", "install", package])
+
+install('dgl==0.2')
+
+import dgl
 
 def build_karate_club_graph(edges):
     g = dgl.DGLGraph()
